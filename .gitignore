@@ -1,0 +1,72 @@
+# ---------------------------------------------------------------------------
+# Phase 1 .gitignore
+# Constructed by inspection of the actual repository (Phase 0 §22): the repo
+# contained ONLY docs/ before Phase 1, so nothing pre-existing is at risk of
+# being un-tracked by these rules. Model CONFIG and METADATA are deliberately
+# NOT ignored - only large binary weights and generated audio are.
+# ---------------------------------------------------------------------------
+
+# Model weights and checkpoints - never committed (Phase 0 §23)
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.bin
+*.onnx
+*.gguf
+*.h5
+*.msgpack
+
+# Local model store - weights live here, outside Git.
+# models/manifest.yaml and models/README.md ARE tracked (see negations below).
+models/**
+!models/
+!models/README.md
+!models/manifest.yaml
+!models/**/*.json
+!models/**/*.yaml
+!models/**/*.md
+
+# Datasets and generated audio (Phase 0 Step 9: audio stays outside Git)
+datasets/
+data/raw/
+data/audio/
+outputs/
+artifacts/
+*.wav
+*.mp3
+*.flac
+*.ogg
+*.opus
+
+# Secrets - never commit HF tokens or credentials (Phase 0 §22)
+.env
+.env.*
+*.key
+*.pem
+secrets.yaml
+.huggingface/
+hf_token*
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/

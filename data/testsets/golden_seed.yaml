@@ -1,0 +1,110 @@
+# Golden baseline text sets - Phase 0 §9 realisation (SEED)
+#
+# version: golden@v0.1
+#
+# COVERAGE NOTE (honest status):
+# Phase 0 §9 requires ~200 EN / ~230 TA / ~220 TG items. This SEED contains far
+# fewer. It establishes the STRUCTURE, the category taxonomy and the field
+# schema so Phase 2 can author to the full floors against a fixed contract.
+# The shortfall is recorded in docs/phase1/phase1_exit_report.md as an open gap.
+#
+# These are INPUT TEXTS ONLY. No audio has been generated, because no TTS model
+# exists in this repository (docs/phase1/model_inventory.md). Any future audio
+# must be stored outside Git (see .gitignore) per Phase 0 §9.4 / Step 9.
+#
+# schema: id, lang, script, category, length_bucket, entity_labels, scenario
+
+meta:
+  version: "golden@v0.1"
+  frozen: false
+  audio_generated: false
+  audio_blocker: "No TTS model present in repository - Phase 1 blocker B-01"
+
+# =========================================================== ENGLISH (en_v1)
+english:
+  - {id: EN-C-001, category: conversational, length: short, scenario: ride_status,
+     entity_labels: [], text: "Your cab is arriving."}
+  - {id: EN-C-002, category: conversational, length: short, scenario: booking,
+     entity_labels: [], text: "Your booking is confirmed."}
+  - {id: EN-C-003, category: conversational, length: medium, scenario: driver_coord,
+     entity_labels: [duration], text: "Your driver will reach the pickup point in 10 minutes."}
+  - {id: EN-C-004, category: conversational, length: long, scenario: support,
+     entity_labels: [], text: "I am sorry for the delay. Your driver is stuck in traffic near the signal and should reach your pickup point very shortly. Thank you for your patience."}
+  - {id: EN-Q-001, category: question, length: short, scenario: booking,
+     entity_labels: [], text: "Where would you like to be picked up?"}
+  - {id: EN-Q-002, category: question, length: short, scenario: cancellation,
+     entity_labels: [], text: "Would you like to cancel this ride?"}
+  - {id: EN-E-001, category: entity_heavy, length: medium, scenario: booking,
+     entity_labels: [otp, booking_id], text: "Your OTP is 4821 and your booking ID is TN45AB1234."}
+  - {id: EN-E-002, category: entity_heavy, length: medium, scenario: support,
+     entity_labels: [phone, price], text: "Your phone number is 9876543210 and the fare is Rs. 250."}
+  - {id: EN-E-003, category: entity_heavy, length: medium, scenario: ride_status,
+     entity_labels: [time, address_num], text: "Your cab will arrive at 7:30 PM at No. 12, 3rd Cross St."}
+  - {id: EN-E-004, category: entity_heavy, length: short, scenario: ride_status,
+     entity_labels: [distance], text: "The driver is 2.5 km away."}
+  - {id: EN-N-001, category: names, length: short, scenario: driver_coord,
+     entity_labels: [name], text: "Your driver Karthik is on the way."}
+  - {id: EN-L-001, category: locations, length: short, scenario: booking,
+     entity_labels: [location], text: "Drop location is Chennai Central."}
+  - {id: EN-V-001, category: vehicle, length: short, scenario: booking,
+     entity_labels: [vehicle], text: "An SUV has been assigned to your trip."}
+  - {id: EN-A-001, category: abbreviation, length: short, scenario: ride_status,
+     entity_labels: [abbreviation], text: "The ETA is fifteen minutes."}
+  - {id: EN-H-001, category: hard_pronunciation, length: short, scenario: support,
+     entity_labels: [], text: "Please read the live fare before you confirm."}
+
+# ============================================================= TAMIL (ta_v1)
+tamil:
+  - {id: TA-C-001, category: conversational, length: short, scenario: ride_status,
+     entity_labels: [], text: "உங்கள் வண்டி வந்துவிட்டது."}
+  - {id: TA-C-002, category: conversational, length: short, scenario: booking,
+     entity_labels: [], text: "உங்கள் பயணம் உறுதி செய்யப்பட்டது."}
+  - {id: TA-C-003, category: conversational, length: medium, scenario: driver_coord,
+     entity_labels: [], text: "ஓட்டுநர் வழியில் இருக்கிறார், சிறிது நேரம் காத்திருங்கள்."}
+  - {id: TA-Q-001, category: question, length: short, scenario: booking,
+     entity_labels: [], text: "உங்கள் இருப்பிடம் எங்கே?"}
+  - {id: TA-E-001, category: entity_heavy, length: medium, scenario: booking,
+     entity_labels: [otp, price], text: "உங்கள் OTP 4821, கட்டணம் 250 ரூபாய்."}
+  - {id: TA-E-002, category: entity_heavy, length: short, scenario: ride_status,
+     entity_labels: [time], text: "உங்கள் வண்டி 7:30 மணிக்கு வரும்."}
+  - {id: TA-R-001, category: register_formal, length: short, scenario: support,
+     entity_labels: [], text: "ஓட்டுநர் வருகிறார்."}
+  - {id: TA-R-002, category: register_colloquial, length: short, scenario: support,
+     entity_labels: [], text: "டிரைவர் வர்றாரு."}
+  - {id: TA-P-001, category: retroflex_contrast, length: short, scenario: phonetic,
+     entity_labels: [], text: "வழி வளி வலி"}
+  - {id: TA-P-002, category: trill_contrast, length: short, scenario: phonetic,
+     entity_labels: [], text: "பறவை பரவை"}
+  - {id: TA-W-001, category: loanword, length: short, scenario: booking,
+     entity_labels: [vehicle], text: "ஆட்டோ புக் பண்ணுங்க."}
+
+# ========================================================== TANGLISH (tg_v1)
+# TG-A: Tamil script matrix + Latin English inserts
+# TG-B: fully Latin script, Tamil matrix
+# TG-C: mixed script + Tamil suffix on English token
+tanglish:
+  - {id: TG-A-001, subset: TG-A, category: single_insert, length: short,
+     scenario: booking, entity_labels: [], text: "உங்கள் pickup location எங்கே?"}
+  - {id: TG-A-002, subset: TG-A, category: phrase_insert, length: medium,
+     scenario: ride_status, entity_labels: [duration],
+     text: "Driver இன்னும் 5 minutes-ல வருவார்."}
+  - {id: TG-A-003, subset: TG-A, category: entity_in_switch, length: medium,
+     scenario: booking, entity_labels: [otp],
+     text: "உங்கள் booking confirm ஆயிடுச்சு, OTP 4821."}
+  - {id: TG-B-001, subset: TG-B, category: single_insert, length: short,
+     scenario: booking, entity_labels: [], text: "unga pickup location enga?"}
+  - {id: TG-B-002, subset: TG-B, category: clause_alternation, length: medium,
+     scenario: cancellation, entity_labels: [],
+     text: "booking cancel pannunga, naan veru vandi book pannikren."}
+  - {id: TG-B-003, subset: TG-B, category: entity_in_switch, length: medium,
+     scenario: support, entity_labels: [price],
+     text: "fare romba jaasti, 250 rupees aagum-a?"}
+  - {id: TG-C-001, subset: TG-C, category: intra_word_suffix, length: short,
+     scenario: ride_status, entity_labels: [location],
+     text: "Chennai Central-ல இருக்கா?"}
+  - {id: TG-C-002, subset: TG-C, category: intra_word_suffix, length: medium,
+     scenario: booking, entity_labels: [],
+     text: "booking-ah cancel pannunga."}
+  - {id: TG-C-003, subset: TG-C, category: intra_word_suffix, length: medium,
+     scenario: driver_coord, entity_labels: [duration],
+     text: "Driver 10 minutes-kku munnadi call pannuvaaru."}

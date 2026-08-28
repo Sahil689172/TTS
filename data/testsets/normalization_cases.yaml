@@ -1,0 +1,425 @@
+# Frozen normalization test cases - Phase 0 §8 realisation
+#
+# version: norm@v0.1  (SEED - see coverage note below)
+#
+# COVERAGE NOTE (honest status):
+# Phase 0 §8.2 requires >=25 cases per category and >=40 in N-AMB. This file
+# is a SEED that does not yet meet those counts. The shortfall is recorded in
+# docs/phase1/normalization_audit.md and is an OPEN Phase 1 exit-criterion gap.
+# Structure and determinism labelling are frozen; case COUNT is not yet met.
+#
+# determinism:
+#   exact     - Phase 0 specifies the output verbatim. Release-blocking.
+#   preferred - project-canonical form; alternatives acceptable.
+#   open      - Phase 0 defers the decision; may change without regression.
+#
+# lang: matrix language expected for the utterance.
+
+meta:
+  version: "norm@v0.1"
+  frozen: false
+  phase0_ref: "docs/PHASE_0_REQUIREMENTS_FREEZE.md §8"
+
+cases:
+
+  # ---------------------------------------------------------------- N5 OTP
+  - id: N5-001
+    category: otp
+    determinism: exact
+    lang: en
+    input: "Your OTP is 4821."
+    expect_contains: "four eight two one"
+    phase0_ref: "PN-05, §8 N5 (verbatim PS example)"
+  - id: N5-002
+    category: otp
+    determinism: exact
+    lang: en
+    input: "OTP: 0042"
+    expect_contains: "zero zero four two"
+    note: "leading-zero trap"
+  - id: N5-003
+    category: otp
+    determinism: exact
+    lang: en
+    input: "Your verification code is 739104."
+    expect_contains: "seven three nine one zero four"
+  - id: N5-004
+    category: otp
+    determinism: exact
+    lang: ta
+    input: "உங்கள் OTP 4821."
+    expect_contains: "நான்கு எட்டு இரண்டு ஒன்று"
+    note: "Tamil digit names; UNVALIDATED by native speaker"
+
+  # -------------------------------------------------------------- N4 PHONE
+  - id: N4-001
+    category: phone
+    determinism: exact
+    lang: en
+    input: "Your phone number is 9876543210."
+    expect_contains: "nine eight seven six five four three two one zero"
+    phase0_ref: "PN-04, §8 N4"
+  - id: N4-002
+    category: phone
+    determinism: exact
+    lang: en
+    input: "Call the driver on 98765 43210."
+    expect_contains: "nine eight seven six five"
+    note: "grouped form must NOT read as ninety-eight thousand"
+  - id: N4-003
+    category: phone
+    determinism: exact
+    lang: en
+    input: "Contact +91 98765 43210 now."
+    expect_contains: "nine one"
+
+  # --------------------------------------------------------- N6 BOOKING ID
+  - id: N6-001
+    category: booking_id
+    determinism: exact
+    lang: en
+    input: "Your booking ID is TN45AB1234."
+    expect_contains: "T N four five A B one two three four"
+    phase0_ref: "PN-06, §8 N6"
+  - id: N6-002
+    category: booking_id
+    determinism: exact
+    lang: en
+    input: "Reference BK-2026-0093 is confirmed."
+    expect_contains: "B K two zero two six zero zero nine three"
+    note: "separators dropped"
+  - id: N6-003
+    category: booking_id
+    determinism: exact
+    lang: en
+    input: "Trip ID TN01Z9988 cancelled."
+    expect_contains: "T N zero one Z nine nine eight eight"
+
+  # ------------------------------------------------------------- N3 TIMES
+  - id: N3-001
+    category: time
+    determinism: preferred
+    lang: en
+    input: "Your cab will arrive at 7:30 PM."
+    expect_contains: "seven thirty PM"
+    phase0_ref: "PN-03, §8 N3"
+  - id: N3-002
+    category: time
+    determinism: preferred
+    lang: en
+    input: "Pickup at 7:05."
+    expect_contains: "seven oh five"
+    note: "leading-zero trap; must not be 'seven five'"
+  - id: N3-003
+    category: time
+    determinism: preferred
+    lang: en
+    input: "Arriving at 12:00 AM."
+    expect_contains: "twelve midnight"
+  - id: N3-004
+    category: time
+    determinism: preferred
+    lang: en
+    input: "Arriving at 12:00 PM."
+    expect_contains: "twelve noon"
+  - id: N3-005
+    category: time
+    determinism: preferred
+    lang: en
+    input: "Your ride starts at 9:00."
+    expect_contains: "nine o'clock"
+
+  # ---------------------------------------------------------- N1 NUMBERS
+  - id: N1-001
+    category: cardinal
+    determinism: preferred
+    lang: en
+    input: "Your cab will arrive in 10 minutes."
+    expect_contains: "ten minutes"
+    phase0_ref: "PN-01, §8 N1 (verbatim PS example)"
+  - id: N1-002
+    category: ordinal
+    determinism: preferred
+    lang: en
+    input: "Get down at the 1st stop."
+    expect_contains: "first"
+  - id: N1-003
+    category: ordinal
+    determinism: preferred
+    lang: en
+    input: "Take the 23rd turn."
+    expect_contains: "twenty-third"
+  - id: N1-004
+    category: decimal
+    determinism: preferred
+    lang: en
+    input: "You are 2.5 km away."
+    expect_contains: "two point five"
+  - id: N1-005
+    category: cardinal
+    determinism: open
+    lang: en
+    input: "We served 100000 rides."
+    expect_contains: "one lakh"
+    note: "OPEN: Indian vs Western grouping (config.grouping)"
+  - id: N1-006
+    category: cardinal
+    determinism: preferred
+    lang: ta
+    input: "பத்து நிமிடம் ஆகும்."
+    expect_contains: "பத்து"
+    note: "already spelled; must pass through unchanged"
+
+  # ---------------------------------------------------------- N10 PRICES
+  - id: N10-001
+    category: price
+    determinism: preferred
+    lang: en
+    input: "The fare is Rs. 250."
+    expect_contains: "two hundred fifty rupees"
+  - id: N10-002
+    category: price
+    determinism: preferred
+    lang: en
+    input: "Total 250 rupees."
+    expect_contains: "two hundred fifty rupees"
+  - id: N10-003
+    category: price
+    determinism: preferred
+    lang: en
+    input: "Your fare is 1250 rupees."
+    expect_contains: "one thousand two hundred fifty rupees"
+
+  # -------------------------------------------------------- N11 DISTANCES
+  - id: N11-001
+    category: distance
+    determinism: preferred
+    lang: en
+    input: "The driver is 2.5 km away."
+    expect_contains: "two point five kilometres"
+  - id: N11-002
+    category: distance
+    determinism: preferred
+    lang: en
+    input: "Only 500 m to go."
+    expect_contains: "five hundred metres"
+
+  # ----------------------------------------------------- N8 ABBREVIATIONS
+  - id: N8-001
+    category: abbreviation
+    determinism: preferred
+    lang: en
+    input: "Your OTP is ready."
+    expect_contains: "O T P"
+  - id: N8-002
+    category: abbreviation
+    determinism: preferred
+    lang: en
+    input: "Book an SUV please."
+    expect_contains: "S U V"
+  - id: N8-003
+    category: abbreviation
+    determinism: preferred
+    lang: en
+    input: "The ETA is short."
+    expect_contains: "E T A"
+
+  # ------------------------------------------------------- N7 ADDRESSES
+  - id: N7-001
+    category: address
+    determinism: preferred
+    lang: en
+    input: "No. 12, 3rd Cross St"
+    expect_contains: "number twelve"
+    note: "'No.' is 'number', not the word 'no'"
+  - id: N7-002
+    category: address
+    determinism: preferred
+    lang: en
+    input: "No, that is wrong."
+    expect_contains: "No,"
+    note: "negative control: bare 'No' must NOT become 'number'"
+
+  # ------------------------------------------------------ N13 LOCATIONS
+  - id: N13-001
+    category: location
+    determinism: preferred
+    lang: en
+    input: "Drop at OMR please."
+    expect_contains: "O M R"
+
+  # -------------------------------------------- N14 TAMIL+ENGLISH MIXED
+  - id: N14-001
+    category: code_mixed
+    determinism: preferred
+    lang: ta
+    input: "உங்கள் pickup location எங்கே?"
+    expect_matrix: ta
+    expect_code_mixed: true
+    phase0_ref: "LR-04 (verbatim PS example)"
+  - id: N14-002
+    category: code_mixed
+    determinism: preferred
+    lang: ta
+    input: "Driver இன்னும் 5 minutes-ல வருவார்."
+    expect_contains: "ஐந்து"
+    expect_matrix: ta
+    note: "number follows MATRIX language, not digit script"
+
+  # ------------------------------- N15 TAMIL IN LATIN SCRIPT / SUFFIXES
+  - id: N15-001
+    category: ta_latin
+    determinism: preferred
+    lang: ta-latn
+    input: "unga pickup location enga?"
+    expect_matrix: ta-latn
+    expect_code_mixed: true
+    phase0_ref: "LR-05 (verbatim PS example)"
+  - id: N15-002
+    category: suffix
+    determinism: preferred
+    lang: ta
+    input: "Chennai Central-ல இருக்கா?"
+    expect_matrix: ta
+    expect_suffix_on: "Central"
+    phase0_ref: "LR-06 (verbatim PS example)"
+  - id: N15-003
+    category: suffix
+    determinism: preferred
+    lang: ta-latn
+    input: "booking-ah cancel pannunga"
+    expect_suffix_on: "booking"
+
+  # =====================================================================
+  # N-AMB - AMBIGUITY SUITE (release-blocking, Phase 0 PN-14)
+  # Same string, different context, different rendering.
+  # =====================================================================
+  - id: NAMB-001a
+    category: ambiguity
+    determinism: exact
+    lang: en
+    input: "Your OTP is 4821."
+    expect_contains: "four eight two one"
+    pair: NAMB-001
+  - id: NAMB-001b
+    category: ambiguity
+    determinism: exact
+    lang: en
+    input: "The fare is 4821 rupees."
+    expect_contains: "four thousand eight hundred twenty-one"
+    pair: NAMB-001
+  - id: NAMB-002a
+    category: ambiguity
+    determinism: exact
+    lang: en
+    input: "Your booking ID is BK1234."
+    expect_contains: "one two three four"
+    pair: NAMB-002
+  - id: NAMB-002b
+    category: ambiguity
+    determinism: exact
+    lang: en
+    input: "The fare is 1234 rupees."
+    expect_contains: "one thousand two hundred thirty-four"
+    pair: NAMB-002
+  - id: NAMB-003a
+    category: ambiguity
+    determinism: preferred
+    lang: en
+    input: "St. Thomas Mount"
+    expect_contains: "saint"
+    pair: NAMB-003
+  - id: NAMB-003b
+    category: ambiguity
+    determinism: preferred
+    lang: en
+    input: "3rd Cross St."
+    expect_contains: "street"
+    pair: NAMB-003
+  - id: NAMB-004a
+    category: ambiguity
+    determinism: preferred
+    lang: en
+    input: "Dr. Kumar is waiting."
+    expect_contains: "doctor"
+    pair: NAMB-004
+  - id: NAMB-004b
+    category: ambiguity
+    determinism: preferred
+    lang: en
+    input: "Palm Grove Dr."
+    expect_contains: "drive"
+    pair: NAMB-004
+  - id: NAMB-005a
+    category: ambiguity
+    determinism: preferred
+    lang: en
+    input: "No. 12, 3rd Cross St"
+    expect_contains: "number twelve"
+    pair: NAMB-005
+  - id: NAMB-005b
+    category: ambiguity
+    determinism: preferred
+    lang: en
+    input: "No, that is wrong."
+    expect_not_contains: "number"
+    pair: NAMB-005
+  - id: NAMB-006a
+    category: ambiguity
+    determinism: exact
+    lang: en
+    input: "Your phone number is 9876543210."
+    expect_contains: "nine eight seven six five four three two one zero"
+    pair: NAMB-006
+  - id: NAMB-006b
+    category: ambiguity
+    determinism: preferred
+    lang: en
+    input: "We completed 9876 trips."
+    expect_not_contains: "nine eight seven six"
+    pair: NAMB-006
+
+  # ================= KNOWN-FAILING / NOT-YET-IMPLEMENTED (xfail) ========
+  # These document real gaps rather than hiding them. Phase 0 §17 requires
+  # failures to be recorded, not suppressed.
+  - id: XF-001
+    category: date
+    determinism: open
+    lang: en
+    input: "Your trip is on 2/3/2026."
+    expect_contains: "second of March"
+    xfail: true
+    xfail_reason: >
+      Verbalizer emits '<ordinal> March <year>' without the preposition 'of'.
+      Canonical English date phrasing not finalised. OPEN determinism.
+  - id: XF-002
+    category: number
+    determinism: open
+    lang: en
+    input: "We served 1,50,000 rides."
+    expect_contains: "one lakh fifty thousand"
+    xfail: true
+    xfail_reason: >
+      Indian digit grouping (1,50,000) is parsed by stripping commas, which
+      works, but the lakh/thousand composition wording is not yet verified.
+  - id: XF-003
+    category: ta_number
+    determinism: open
+    lang: ta
+    input: "கட்டணம் 250 ரூபாய்."
+    expect_contains: "இருநூற்றி ஐம்பது"
+    xfail: true
+    xfail_reason: >
+      Tamil price/number forms are UNVALIDATED by a native speaker. Marked
+      xfail so the suite does not assert correctness we have not verified.
+  - id: XF-004
+    category: pin_code
+    determinism: open
+    lang: en
+    input: "Deliver to Chennai 600040."
+    expect_contains: "six zero zero zero four zero"
+    xfail: true
+    xfail_reason: >
+      PIN-code detection is trigger-gated only. A bare 6-digit number after a
+      city name is not yet recognised as a PIN code. Requires a location
+      lexicon lookup, deferred.

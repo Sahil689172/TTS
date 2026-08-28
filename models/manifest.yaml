@@ -1,0 +1,33 @@
+# Local model manifest.
+#
+# Phase 1 status: EMPTY. No models have been downloaded (audit-before-download,
+# Phase 0 Step 5/6). This file defines the SCHEMA that every future entry must
+# populate, so that Phase 2 candidates are recorded consistently.
+#
+# Required fields per entry (Phase 0 §13.2):
+#   name, model_id, revision, source, license, license_verified,
+#   local_path, download_method, checksum, size_bytes, added_by, added_date,
+#   tier (research_only | production_approved)
+
+schema_version: 1
+model_root_env: TTS_MODEL_ROOT
+model_root_recommended: "D:\tts-models"
+
+models: []
+
+# Example of a fully-populated entry (NOT an active model, NOT downloaded):
+#
+# models:
+#   - name: example-tts
+#     model_id: org/example-tts
+#     revision: "0000000000000000000000000000000000000000"
+#     source: huggingface
+#     license: UNKNOWN
+#     license_verified: false
+#     tier: research_only
+#     local_path: "$TTS_MODEL_ROOT/candidates/example-tts"
+#     download_method: "huggingface-cli download org/example-tts --revision <sha>"
+#     checksum: UNKNOWN
+#     size_bytes: UNKNOWN
+#     added_by: UNKNOWN
+#     added_date: UNKNOWN
